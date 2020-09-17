@@ -100,49 +100,22 @@ function Car(model, milesPerGallon) {
   this.odometer = 0;
 }
 
-Car.prototype.fill = function(numberOfGallons){
-  return(this.tank + numberOfGallons);
-
-  }
-
-console.log(8);
-
-
-
-
-
-Car.prototype.toString = function(){
-  return(`My ${this.model} can drive ${this.milesPerGallon} miles per gallon.`);
+Car.prototype.fill = function(gallons){
+  this.tank = this.tank + gallons;
 }
 
-const carOne = new Car('Ford', 17);
+Car.prototype.drive = function(distance){
+  const driveableMiles = this.tank * this.milesPerGallon;
+  if(distance <= driveableMiles){
+    this.odometer = this.odometer + distance;
+    this.tank = this.tank - (distance / this.milesPerGallon);
+  } else  {
+    this.odometer = this.odometer + driveableMiles;
+    this.tank = 0;
+    return `I ran out of fuel at ${this.odometer} miles`;
+  }
+}
 
-console.log(carOne.toString());
-
-carOne.fill('gallon of gas');
-carOne.fill('gallon of gas');
-carOne.fill('gallon of gas');
-carOne.fill('gallon of gas');
-carOne.fill('gallon of gas');
-carOne.fill('gallon of gas');
-
-console.log(carOne.tank);
-
- Car.prototype.drive = function(distance){
-   if(this.odometer.length + 1){
-     this.odometer.push(distance) && this.tank.shift;
-   }
- }
-
- console.log(carOne.odometer);
-
- carOne.drive('one mile');
- carOne.drive('one mile');
- carOne.drive('one mile');
- carOne.drive('one mile');
- carOne.drive('one mile');
- carOne.drive('one mile');
- carOne.drive('one mile');
 /*
   TASK 3
     - Write a Baby constructor subclassing Person.
@@ -150,36 +123,33 @@ console.log(carOne.tank);
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-
-
-function Child(attributes){
-  Person.call(this.attributes);
-}
-Child.prototype = Object.create(Person.prototype);
-
 function Baby(name, age, favoriteToy) {
-    this.name = name;
-    this.age = age;
-    this.favoriteToy = favoriteToy;
+  Person.call(this, name, age);
+  this.favoriteToy = favoriteToy;
 }
 
+Baby.prototype = Object.create(Person.prototype);
 Baby.prototype.play = function(){
-  console.log(`Playing with my ${this.favoriteToy}`);
-  }
-
+   return `Playing with my ${this.favoriteToy}`;
+}
 
 /*
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
 
-  1. Implicit Binding
+  1. Window binding - if none of the other rules apply, this will default to window unless we are in strict mode. Will return undefined.
 
-  2. most common rule - it's found in 80% of use cases
+  2. Implicit binding - when the function is invoked, look to the left of the dot, that is the "this"
 
-  3. only applies to object with methods, don't use in global scope or you will get the entire window.
+  3. Explicit Binding - .call, .apply, .bind
+  .call - we pass in arguments 1 by 1 / immedite invokes the function
 
-  4. when the function is invoked, look to the left of the dot. that is what 'this' refers to
+  .apply - we pass in arguments as an array - immediate invokes as an array.
+
+  .bind we pass in arguments 1 by 1 / does not immeditely invokes the function but saves it to be invoked later.
+
+  4. New Binding - When a function is invoked as a constructor function using the new key word, this points to the new object that's created.
 */
 
 
