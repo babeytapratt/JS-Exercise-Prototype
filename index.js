@@ -39,9 +39,44 @@ Airplane.prototype.land = function () {
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
 
-function Person() {
-
+function Person(name, age){
+  this.name = name;
+  this.age = age;
+  this.stomach = [];
 }
+
+Person.prototype.eat = function(edible){
+  if(this.stomach.length < 10){
+    this.stomach.push(edible);
+  }
+}
+
+Person.prototype.poop = function(){
+  this.stomach = [];
+}
+
+Person.prototype.toString = function(){
+  return `${this.name}, ${this.age}`;
+}
+
+const personOne = new Person('William', 21);
+const personTwo = new Person('Brian', 39);
+const personThree = new Person('Cheree', 41);
+
+console.log(personOne.toString());
+console.log(personTwo.toString());
+console.log(personThree.toString());
+
+personTwo.eat('pizza');
+personTwo.eat('breadsticks');
+
+console.log(personTwo.stomach);
+
+personTwo.poop();
+
+console.log(personTwo.stomach);
+
+
 
 /*
   TASK 2
@@ -57,10 +92,57 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
-
+// @ts-ignore
+function Car(model, milesPerGallon) {
+  this.model = model;
+  this.milesPerGallon = milesPerGallon;
+  this.tank = 0;
+  this.odometer = 0;
 }
 
+Car.prototype.fill = function(numberOfGallons){
+  return(this.tank + numberOfGallons);
+
+  }
+
+console.log(8);
+
+
+
+
+
+Car.prototype.toString = function(){
+  return(`My ${this.model} can drive ${this.milesPerGallon} miles per gallon.`);
+}
+
+const carOne = new Car('Ford', 17);
+
+console.log(carOne.toString());
+
+carOne.fill('gallon of gas');
+carOne.fill('gallon of gas');
+carOne.fill('gallon of gas');
+carOne.fill('gallon of gas');
+carOne.fill('gallon of gas');
+carOne.fill('gallon of gas');
+
+console.log(carOne.tank);
+
+ Car.prototype.drive = function(distance){
+   if(this.odometer.length + 1){
+     this.odometer.push(distance) && this.tank.shift;
+   }
+ }
+
+ console.log(carOne.odometer);
+
+ carOne.drive('one mile');
+ carOne.drive('one mile');
+ carOne.drive('one mile');
+ carOne.drive('one mile');
+ carOne.drive('one mile');
+ carOne.drive('one mile');
+ carOne.drive('one mile');
 /*
   TASK 3
     - Write a Baby constructor subclassing Person.
@@ -68,18 +150,36 @@ function Car() {
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
 
+
+function Child(attributes){
+  Person.call(this.attributes);
+}
+Child.prototype = Object.create(Person.prototype);
+
+function Baby(name, age, favoriteToy) {
+    this.name = name;
+    this.age = age;
+    this.favoriteToy = favoriteToy;
 }
 
-/* 
+Baby.prototype.play = function(){
+  console.log(`Playing with my ${this.favoriteToy}`);
+  }
+
+
+/*
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+
+  1. Implicit Binding
+
+  2. most common rule - it's found in 80% of use cases
+
+  3. only applies to object with methods, don't use in global scope or you will get the entire window.
+
+  4. when the function is invoked, look to the left of the dot. that is what 'this' refers to
 */
 
 
